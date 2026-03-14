@@ -13,6 +13,7 @@ import { YearComparisonView } from "@/components/YearComparisonView";
 import { SummaryStats } from "@/components/SummaryStats";
 import { SeasonalPulse } from "@/components/SeasonalPulse";
 import { ZonalMean } from "@/components/ZonalMean";
+import { PlotlyComparisonView } from "@/components/PlotlyComparisonView";
 import { Globe, Map, BarChart3, Info, CheckCircle2, X, Activity, Layers } from "lucide-react";
 import { useClimateStore } from "@/lib/store";
 
@@ -148,9 +149,9 @@ export default function DashboardPage() {
 
                   {activeTab === "comparison" && (
                     <div className="space-y-6">
-                      <ComparisonView />
-                      <PlotlyClimateView />
+                      <PlotlyComparisonView />
                       <YearComparisonView />
+                      <PlotlyClimateView />
                     </div>
                   )}
 
