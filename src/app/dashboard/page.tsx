@@ -33,7 +33,7 @@ const ClimateMap = dynamic(
 );
 
 const GlobeView = dynamic(
-  () => import("@/components/GlobeView").then((m) => m.GlobeView),
+  () => import("@/components/GlobeView").then((m) => ({ default: m.GlobeView })),
   { ssr: false }
 );
 
