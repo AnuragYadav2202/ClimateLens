@@ -59,32 +59,45 @@ export default function DashboardPage() {
 
           <div className="flex-1 min-w-0 flex flex-col gap-6">
             {/* Header & Tabs */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-2 border-b border-slate-700/30">
+            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-8 pb-4 border-b border-emerald-500/10">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight text-slate-100 flex items-center gap-3">
-                  <span className="w-2 h-8 bg-cyan-500 rounded-full" />
-                  Interactive Climate Explorer
+                <h1 className="text-4xl font-black tracking-[-0.04em] text-white flex items-center gap-4">
+                  <div className="relative">
+                    <div className="w-2 h-10 bg-emerald-500 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.5)]" />
+                    <div className="absolute inset-0 w-2 h-10 bg-emerald-400 blur-sm rounded-full animate-pulse" />
+                  </div>
+                  CLIMATE_LENS
                 </h1>
-                <p className="text-slate-400 text-sm mt-1">
-                  Analyze ERA5, NASA, and NOAA datasets with real-time AI insights.
+                <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.4em] mt-2 opacity-70">
+                  Biosphere Intelligence • Multi-Spectral Planetary Analysis
                 </p>
               </div>
 
-              <div className="flex bg-slate-800/40 p-1 rounded-xl border border-slate-700/50 self-start sm:self-auto overflow-x-auto no-scrollbar">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
-                      activeTab === tab.id
-                        ? "bg-cyan-500 text-white shadow-lg shadow-cyan-500/20"
-                        : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/30"
-                    }`}
-                  >
-                    <tab.icon className="w-4 h-4" />
-                    {tab.label}
-                  </button>
-                ))}
+              <div className="flex bg-slate-900/60 p-1.5 rounded-2xl border border-emerald-500/10 self-start xl:self-auto overflow-x-auto no-scrollbar backdrop-blur-xl">
+                {tabs.map((tab) => {
+                  const isActive = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`relative flex items-center gap-3 px-6 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500 whitespace-nowrap group ${
+                        isActive
+                          ? "text-emerald-400 shadow-[0_0_40px_rgba(16,185,129,0.1)]"
+                          : "text-slate-500 hover:text-slate-300"
+                      }`}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeTabBadge"
+                          className="absolute inset-0 bg-emerald-500/10 border border-emerald-500/20 rounded-xl shadow-[inset_0_0_20px_rgba(16,185,129,0.05)]"
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        />
+                      )}
+                      <tab.icon className={`w-4 h-4 transition-all duration-500 ${isActive ? "scale-110 text-emerald-400" : "group-hover:scale-110 opacity-40 group-hover:opacity-100"}`} />
+                      <span className="relative z-10">{tab.label}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
