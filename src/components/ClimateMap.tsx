@@ -106,7 +106,7 @@ export function ClimateMap({ yearOverride }: { yearOverride?: number } = {}) {
           coverage: 0.95,
           pickable: true,
           transition: { elevationScale: 400 },
-          onHover: (info: any) => setHoverInfo(info),
+          onHover: (info: any) => { setHoverInfo(info); return true; },
         }),
       ];
     }
@@ -126,7 +126,7 @@ export function ClimateMap({ yearOverride }: { yearOverride?: number } = {}) {
         gpuAggregation: true,
         pickable: true,
         opacity: 0.85,
-        onHover: (info: any) => setHoverInfo(info),
+        onHover: (info: any) => { setHoverInfo(info); return true; },
       }),
       // Add a subtle glow/pulsing layer for hotspots
       new ScatterplotLayer({
