@@ -20,9 +20,9 @@ export function SeasonalPulse() {
   const { data, isLoading } = useSeasonalData(year, selectedVariable);
 
   const colors = {
-    temperature: { stroke: "#22d3ee", fill: "#22d3ee", bg: "rgba(34, 211, 238, 0.2)" },
-    precipitation: { stroke: "#60a5fa", fill: "#60a5fa", bg: "rgba(96, 165, 250, 0.2)" },
-    wind: { stroke: "#c084fc", fill: "#c084fc", bg: "rgba(192, 132, 252, 0.2)" }
+    temperature: { stroke: "#10b981", fill: "url(#tempGradient)", color: "#10b981" },
+    precipitation: { stroke: "#34d399", fill: "url(#precipGradient)", color: "#34d399" },
+    wind: { stroke: "#6ee7b7", fill: "url(#windGradient)", color: "#6ee7b7" }
   };
 
   const activeColor = colors[selectedVariable];
@@ -44,12 +44,12 @@ export function SeasonalPulse() {
     >
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
-            <Activity className="w-4 h-4 text-cyan-400" />
+          <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+            <Activity className="w-4 h-4 text-emerald-400" />
           </div>
           <div>
             <h3 className="text-sm font-black text-slate-100 uppercase tracking-wider">Seasonal Pulse</h3>
-            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{year} Metric Distribution</p>
+            <p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">{year} Environmental Distribution</p>
           </div>
         </div>
         <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
@@ -72,6 +72,20 @@ export function SeasonalPulse() {
               tick={false}
               axisLine={false}
             />
+            <defs>
+              <linearGradient id="tempGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="5%" stopColor="#10b981" stopOpacity={0.8}/>
+                <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+              </linearGradient>
+              <linearGradient id="precipGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="5%" stopColor="#34d399" stopOpacity={0.8}/>
+                <stop offset="95%" stopColor="#34d399" stopOpacity={0}/>
+              </linearGradient>
+              <linearGradient id="windGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="5%" stopColor="#6ee7b7" stopOpacity={0.8}/>
+                <stop offset="95%" stopColor="#6ee7b7" stopOpacity={0}/>
+              </linearGradient>
+            </defs>
             <Radar
               name={selectedVariable}
               dataKey="value"
@@ -93,16 +107,16 @@ export function SeasonalPulse() {
         
         {/* Center label */}
         <div className="absolute inset-0 m-auto w-12 h-12 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-[10px] font-black text-slate-600 uppercase">Year</span>
-          <span className="text-xs font-black text-cyan-400/50">{year}</span>
+          <span className="text-[10px] font-black text-slate-700 uppercase tracking-tighter">Domain</span>
+          <span className="text-xs font-black text-emerald-400/50">{year}</span>
         </div>
       </div>
 
       <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
-        <span className="text-[9px] text-slate-500 font-bold uppercase tracking-widest italic">
-          Seasonality Analysis
+        <span className="text-[9px] text-slate-600 font-bold uppercase tracking-widest italic">
+          Nature Cyclic Analysis
         </span>
-        <div className="w-2 h-2 rounded-full bg-cyan-400/50 animate-ping" />
+        <div className="w-2 h-2 rounded-full bg-emerald-400/50 animate-ping shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
       </div>
     </motion.div>
   );

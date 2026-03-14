@@ -49,10 +49,10 @@ export function PlotlyComparisonView() {
 
   if (isLoading) {
     return (
-      <div className="h-[500px] rounded-2xl bg-slate-900/60 flex items-center justify-center border border-white/5 backdrop-blur-xl">
+      <div className="h-[500px] rounded-2xl bg-slate-950/60 flex items-center justify-center border border-white/5 backdrop-blur-xl">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-2 border-cyan-500/20 border-t-cyan-400 rounded-full animate-spin" />
-          <span className="text-xs font-black text-cyan-400 tracking-widest uppercase">Initializing Matrices</span>
+          <div className="w-10 h-10 border-2 border-emerald-500/20 border-t-emerald-400 rounded-full animate-spin" />
+          <span className="text-xs font-black text-emerald-400 tracking-widest uppercase">Synthesizing Matrices</span>
         </div>
       </div>
     );
@@ -106,18 +106,18 @@ export function PlotlyComparisonView() {
       >
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-             <div className="p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
-               <Box className="w-4 h-4 text-indigo-400" />
+             <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+               <Box className="w-4 h-4 text-emerald-400" />
              </div>
              <div>
                <h3 className="text-sm font-black text-slate-100 uppercase tracking-widest leading-none mb-1">Topographic 3D Surface Analysis</h3>
-               <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em]">Morphological comparison of climate peaks</p>
+               <p className="text-[10px] text-slate-600 font-bold uppercase tracking-[0.2em]">Morphological comparison of environment peaks</p>
              </div>
           </div>
-          <div className="flex items-center gap-4 text-xs font-black text-slate-500">
-             <span className="text-cyan-400">{compareYear1}</span>
+          <div className="flex items-center gap-4 text-xs font-black text-slate-600">
+             <span className="text-emerald-400">{compareYear1}</span>
              <ArrowRightLeft className="w-3 h-3" />
-             <span className="text-cyan-400">{compareYear2}</span>
+             <span className="text-emerald-400">{compareYear2}</span>
           </div>
         </div>
 
@@ -160,7 +160,7 @@ export function PlotlyComparisonView() {
              </div>
              <div>
                <h3 className="text-sm font-black text-slate-100 uppercase tracking-widest leading-none mb-1">Scientific Contour Isograms</h3>
-               <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em]">High-precision boundary shift analysis</p>
+               <p className="text-[10px] text-slate-600 font-bold uppercase tracking-[0.2em]">High-precision boundary shift analysis</p>
              </div>
           </div>
         </div>

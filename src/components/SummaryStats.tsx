@@ -9,9 +9,9 @@ import { useTimeSeries } from "@/lib/hooks";
 import { useClimateStore } from "@/lib/store";
 
 function getVarMeta(variable: string) {
-  if (variable === "temperature") return { unit: "°C", icon: Thermometer, color: "text-orange-400", accent: "via-orange-500/20" };
-  if (variable === "precipitation") return { unit: "mm", icon: Droplets, color: "text-cyan-400", accent: "via-cyan-500/20" };
-  return { unit: " km/h", icon: Wind, color: "text-purple-400", accent: "via-purple-500/20" };
+  if (variable === "temperature") return { unit: "°C", icon: Thermometer, color: "text-rose-400", accent: "via-rose-500/20" };
+  if (variable === "precipitation") return { unit: "mm", icon: Droplets, color: "text-emerald-400", accent: "via-emerald-500/20" };
+  return { unit: " km/h", icon: Wind, color: "text-mint-400", accent: "via-emerald-400/20" };
 }
 
 export function SummaryStats() {
@@ -51,10 +51,10 @@ export function SummaryStats() {
       value: userDatasetMeta
         ? (userDatasetMeta.yearMin === userDatasetMeta.yearMax ? `${userDatasetMeta.yearMin}` : `${userDatasetMeta.yearMin}–${userDatasetMeta.yearMax}`)
         : selectedYear.toString(),
-      subtext: `Range: ${timeRange[0]}–${timeRange[1]}`,
+      subtext: `Domain: ${timeRange[0]}–${timeRange[1]}`,
       icon: Calendar,
-      color: "text-blue-400",
-      accent: "via-blue-500/20",
+      color: "text-emerald-400",
+      accent: "via-emerald-500/20",
     },
     {
       label: "Trend / Decade",
@@ -73,12 +73,12 @@ export function SummaryStats() {
       accent: vm.accent,
     },
     {
-      label: "Dataset Anomaly",
+      label: "Environmental Anomaly",
       value: `${currentAnomaly > 0 ? "+" : ""}${currentAnomaly.toFixed(1)}${vm.unit}`,
-      subtext: "vs baseline mean",
+      subtext: "vs nature baseline",
       icon: AlertTriangle,
-      color: Math.abs(currentAnomaly) > 1 ? "text-orange-400" : "text-emerald-400",
-      accent: Math.abs(currentAnomaly) > 1 ? "via-orange-500/20" : "via-emerald-500/20",
+      color: Math.abs(currentAnomaly) > 1 ? "text-rose-400" : "text-emerald-400",
+      accent: Math.abs(currentAnomaly) > 1 ? "via-rose-500/20" : "via-emerald-500/20",
     },
   ];
 

@@ -99,13 +99,13 @@ export function Sidebar() {
     <motion.aside
       initial={{ x: -20, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      className="w-80 h-fit glass-card rounded-2xl p-6 flex flex-col gap-8 sticky top-8 shadow-xl shadow-cyan-900/5"
+      className="w-80 h-fit glass-card rounded-2xl p-6 flex flex-col gap-8 sticky top-8 shadow-2xl shadow-emerald-950/20"
     >
       {/* Dataset Section */}
       <section>
         <div className="flex items-center gap-2 mb-4">
-          <FolderOpen className="w-4 h-4 text-cyan-400" />
-          <h3 className="text-sm font-bold text-slate-200">Dataset</h3>
+          <FolderOpen className="w-4 h-4 text-emerald-400" />
+          <h3 className="text-sm font-bold text-slate-200">Dataset Archive</h3>
         </div>
 
         <div className="space-y-4">
@@ -120,15 +120,15 @@ export function Sidebar() {
               <div className={`
                 flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border-2 border-dashed 
                 transition-all duration-300 select-none
-                ${isLoading ? "bg-cyan-500/5 border-cyan-500/30 animate-pulse" :
-                  isDragOver ? "bg-cyan-500/10 border-cyan-400/60 scale-[1.01]" :
-                  userDatasetName ? "border-cyan-500/40 bg-cyan-500/5" :
-                  "bg-slate-900/40 border-slate-700/50 hover:bg-slate-800/40 hover:border-cyan-500/30"}
+                ${isLoading ? "bg-emerald-500/5 border-emerald-500/30 animate-pulse" :
+                  isDragOver ? "bg-emerald-500/10 border-emerald-400/60 scale-[1.01]" :
+                  userDatasetName ? "border-emerald-500/40 bg-emerald-500/5" :
+                  "bg-slate-950/40 border-slate-800/50 hover:bg-slate-900/40 hover:border-emerald-500/30"}
               `}>
                 <div className={`p-3 rounded-full transition-colors ${
-                  userDatasetName ? "bg-cyan-500/20 text-cyan-400" :
-                  isDragOver ? "bg-cyan-500/30 text-cyan-300" :
-                  "bg-slate-800 text-slate-500"
+                  userDatasetName ? "bg-emerald-500/20 text-emerald-400" :
+                  isDragOver ? "bg-emerald-500/30 text-emerald-300" :
+                  "bg-slate-900 text-slate-600"
                 }`}>
                   <UploadCloud className="w-6 h-6" />
                 </div>
@@ -137,14 +137,14 @@ export function Sidebar() {
                     {isLoading ? "Parsing file…" :
                      isDragOver ? "Drop to upload" :
                      userDatasetName ? userDatasetName :
-                     "Drag and drop file here"}
+                     "Ingest Nature File"}
                   </p>
-                  <p className="text-[10px] text-slate-500 mt-1">
-                    Any NetCDF (.nc) file
+                  <p className="text-[10px] text-slate-600 mt-1 uppercase tracking-tighter">
+                    NetCDF (.nc) standard
                   </p>
                 </div>
-                <span className="mt-1 px-4 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs font-bold text-slate-300 transition-colors">
-                  Browse files
+                <span className="mt-1 px-4 py-1.5 bg-slate-900 hover:bg-slate-800 rounded-lg text-xs font-black text-emerald-500/80 transition-colors uppercase tracking-widest border border-emerald-500/10">
+                  Select Disk
                 </span>
               </div>
               <input
@@ -158,7 +158,7 @@ export function Sidebar() {
             {userDatasetName && (
               <button
                 onClick={clearUserDataset}
-                className="absolute top-2 right-2 p-1.5 rounded-full bg-slate-900 text-slate-400 hover:text-white transition-colors"
+                className="absolute top-2 right-2 p-1.5 rounded-full bg-slate-900 text-slate-400 hover:text-white transition-colors border border-white/5"
                 title="Clear Dataset"
               >
                 <X className="w-3 h-3" />
@@ -171,10 +171,10 @@ export function Sidebar() {
             <motion.div
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-green-500/10 border border-green-500/30"
+              className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 shadow-[0_4px_12px_rgba(16,185,129,0.1)]"
             >
-              <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
-              <p className="text-[11px] text-green-300 leading-snug font-medium">{success}</p>
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <p className="text-[11px] text-emerald-300 leading-snug font-medium">{success}</p>
             </motion.div>
           )}
 
@@ -183,10 +183,10 @@ export function Sidebar() {
             <motion.div
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-red-500/10 border border-red-500/30"
+              className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30"
             >
-              <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-              <p className="text-[11px] text-red-300 leading-snug font-medium">{error}</p>
+              <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+              <p className="text-[11px] text-rose-300 leading-snug font-medium">{error}</p>
             </motion.div>
           )}
 
@@ -197,8 +197,8 @@ export function Sidebar() {
       {/* Variable Section */}
       <section>
         <div className="flex items-center gap-2 mb-4">
-          <Activity className="w-4 h-4 text-cyan-400" />
-          <h3 className="text-sm font-bold text-slate-200">Variable</h3>
+          <Activity className="w-4 h-4 text-emerald-400" />
+          <h3 className="text-sm font-bold text-slate-200">Scientific Variable</h3>
         </div>
         <div className="flex flex-col gap-2">
           {variables.map((v) => (
@@ -208,15 +208,15 @@ export function Sidebar() {
               className={`
                 flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all group
                 ${selectedVariable === v.id
-                  ? "bg-gradient-to-r from-cyan-500/20 to-blue-500/10 text-cyan-400 border border-cyan-500/30 shadow-lg shadow-cyan-500/5"
-                  : "bg-slate-800/40 text-slate-400 hover:bg-slate-800/60 border border-transparent"}
+                  ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-400 border border-emerald-500/30 shadow-lg shadow-emerald-500/5"
+                  : "bg-slate-900/40 text-slate-500 hover:bg-slate-900/60 border border-transparent"}
               `}
             >
               <div className="flex items-center gap-3">
-                <v.icon className={`w-4 h-4 transition-colors ${selectedVariable === v.id ? "text-cyan-400" : "text-slate-500 group-hover:text-slate-300"}`} />
+                <v.icon className={`w-4 h-4 transition-colors ${selectedVariable === v.id ? "text-emerald-400" : "text-slate-600 group-hover:text-slate-300"}`} />
                 {v.label}
               </div>
-              <div className={`w-1.5 h-1.5 rounded-full ${selectedVariable === v.id ? "bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,1)]" : "bg-transparent"}`} />
+              <div className={`w-1.5 h-1.5 rounded-full ${selectedVariable === v.id ? "bg-emerald-400 shadow-[0_0_10px_rgba(16,185,129,1)]" : "bg-transparent"}`} />
             </button>
           ))}
         </div>
@@ -225,16 +225,16 @@ export function Sidebar() {
       {/* Year Section */}
       <section>
         <div className="flex items-center gap-2 mb-4">
-          <Calendar className="w-4 h-4 text-cyan-400" />
-          <h3 className="text-sm font-bold text-slate-200">Year</h3>
+          <Calendar className="w-4 h-4 text-emerald-400" />
+          <h3 className="text-sm font-bold text-slate-200">Temporal Domain</h3>
         </div>
         <div className="px-2">
           <div className="flex justify-between items-center mb-6">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">1990</span>
-            <div className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30">
-              <span className="text-sm font-bold text-cyan-400">{timeRange[1]}</span>
+            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">1990</span>
+            <div className="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+              <span className="text-sm font-black text-emerald-400">{timeRange[1]}</span>
             </div>
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">2024</span>
+            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">2024</span>
           </div>
           <input
             type="range"
@@ -242,20 +242,20 @@ export function Sidebar() {
             max="2024"
             value={timeRange[1]}
             onChange={(e) => setTimeRange([timeRange[0], Number(e.target.value)])}
-            className="w-full h-1.5 rounded-full appearance-none bg-slate-800 accent-cyan-500 cursor-pointer"
+            className="w-full h-1 rounded-full appearance-none bg-slate-900 accent-emerald-500 cursor-pointer"
           />
         </div>
       </section>
 
       {/* Footer */}
-      <div className="mt-auto pt-4 border-t border-slate-700/30">
+      <div className="mt-auto pt-4 border-t border-slate-800/50">
         <div className="flex items-center gap-3 opacity-60">
-          <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-cyan-400" />
+          <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center border border-white/5">
+            <Sparkles className="w-5 h-5 text-emerald-400" />
           </div>
           <div className="flex flex-col">
-            <span className="text-[10px] text-slate-500 uppercase font-bold tracking-tighter">Powered by ClimateLens</span>
-            <span className="text-[11px] text-slate-300 font-medium">NASA GISS · NOAA · ERA5</span>
+            <span className="text-[9px] text-slate-600 uppercase font-black tracking-tighter">Powered by ClimateLens Engine</span>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">NASA · NOAA · ERA5</span>
           </div>
         </div>
       </div>

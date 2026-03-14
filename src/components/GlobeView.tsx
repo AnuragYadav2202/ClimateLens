@@ -33,13 +33,13 @@ function getHeatmapColor(value: number, variable: string, minVal: number, maxVal
   const range = maxVal - minVal || 1;
   const t = Math.max(0, Math.min(1, (value - minVal) / range));
   const stops: Array<[number, [number, number, number]]> = [
-    [0.0,  [10,  200, 220]],
-    [0.2,  [80,  220, 160]],
-    [0.45, [180, 230,  60]],
-    [0.6,  [240, 180,  20]],
-    [0.78, [235, 110,  30]],
-    [0.9,  [220,  70,  20]],
-    [1.0,  [180,  30,  10]],
+    [0.0,  [10,  40, 100]],
+    [0.2,  [16,  185, 129]],
+    [0.45, [110, 231, 183]],
+    [0.6,  [245, 158, 11]],
+    [0.78, [225, 29, 72]],
+    [0.9,  [180,  20, 40]],
+    [1.0,  [100,  10, 20]],
   ];
   for (let i = 1; i < stops.length; i++) {
     if (t <= stops[i][0]) {
@@ -186,8 +186,8 @@ export function GlobeView() {
 
       // Atmosphere glow
       const atm = ctx.createRadialGradient(cx, cy, r*0.88, cx, cy, r*1.45);
-      atm.addColorStop(0, "rgba(100,200,255,0.09)");
-      atm.addColorStop(0.5, "rgba(60,160,255,0.04)");
+      atm.addColorStop(0, "rgba(16,185,129,0.12)");
+      atm.addColorStop(0.5, "rgba(16,185,129,0.05)");
       atm.addColorStop(1, "transparent");
       ctx.fillStyle = atm;
       ctx.beginPath(); ctx.arc(cx, cy, r*1.45, 0, Math.PI*2); ctx.fill();
@@ -245,7 +245,7 @@ export function GlobeView() {
       // Rim
       ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
       const rim = ctx.createRadialGradient(cx, cy, r*0.84, cx, cy, r);
-      rim.addColorStop(0, "transparent"); rim.addColorStop(1, "rgba(80,180,255,0.32)");
+      rim.addColorStop(0, "transparent"); rim.addColorStop(1, "rgba(16,185,129,0.35)");
       ctx.fillStyle = rim; ctx.fill();
 
       // Cities
@@ -349,33 +349,33 @@ export function GlobeView() {
 
       {/* HUD top-left */}
       <div className="absolute top-5 left-5 z-10">
-        <div className="px-4 py-3 rounded-xl bg-black/55 backdrop-blur-xl border border-white/10 text-white min-w-[170px]">
+        <div className="px-4 py-3 rounded-xl bg-black/65 backdrop-blur-xl border border-emerald-500/20 text-white min-w-[170px]">
           <div className="flex items-center gap-2 mb-1.5">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-            <span className="text-xs font-black tracking-widest uppercase text-white/90">3D Climate Globe</span>
+            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+            <span className="text-xs font-black tracking-widest uppercase text-white/90">3D Climate Biosphere</span>
           </div>
           <div className="flex flex-col gap-0.5">
-            <p className="text-[10px] font-mono text-cyan-300/80 uppercase tracking-wider">
+            <p className="text-[10px] font-mono text-emerald-300/80 uppercase tracking-wider">
               {selectedVariable} · {timeRange[1]}
             </p>
             {userDatasetName && (
               <p className="text-[9px] text-emerald-400/80 font-bold uppercase tracking-wide flex items-center gap-1">
-                <Database className="w-2.5 h-2.5" /> Custom Dataset
+                <Database className="w-2.5 h-2.5" /> Earth Dataset
               </p>
             )}
-            <p className="text-[9px] text-slate-500 mt-1">Drag to rotate · Click for data</p>
+            <p className="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-tighter">Interaction: Rotate · Scan</p>
           </div>
         </div>
       </div>
 
       {/* Data range HUD — top-right */}
       <div className="absolute top-5 right-5 z-10">
-        <div className="px-3 py-2 rounded-xl bg-black/55 backdrop-blur-xl border border-white/10 text-white text-right">
-          <p className="text-[9px] text-slate-400 uppercase tracking-wider mb-1">Data Range</p>
-          <p className="text-[11px] font-black text-cyan-300">{dataStats.min.toFixed(1)}{unit} – {dataStats.max.toFixed(1)}{unit}</p>
+        <div className="px-3 py-2 rounded-xl bg-black/65 backdrop-blur-xl border border-emerald-500/20 text-white text-right">
+          <p className="text-[9px] text-slate-500 uppercase tracking-wider mb-1 font-black">Data Sweep</p>
+          <p className="text-[11px] font-black text-emerald-400">{dataStats.min.toFixed(1)}{unit} – {dataStats.max.toFixed(1)}{unit}</p>
           {userDatasetMeta && (
-            <p className="text-[9px] text-emerald-400/70 mt-0.5">
-              {userDatasetMeta.pointCount.toLocaleString()} pts
+            <p className="text-[9px] text-emerald-500/50 mt-0.5 font-bold uppercase tracking-tighter">
+              {userDatasetMeta.pointCount.toLocaleString()} Vectors
             </p>
           )}
         </div>
@@ -383,15 +383,15 @@ export function GlobeView() {
 
       {/* Color scale legend — bottom right */}
       <div className="absolute bottom-5 right-5 z-10">
-        <div className="px-3 py-3 rounded-xl bg-black/55 backdrop-blur-xl border border-white/10">
-          <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2 text-center">Scale</p>
-          <div className="flex items-center gap-2">
-            <div className="h-32 w-3 rounded-full overflow-hidden" style={{ background: "linear-gradient(to bottom, rgb(180,30,10), rgb(235,110,30), rgb(240,180,20), rgb(80,220,160), rgb(10,200,220))" }} />
+        <div className="px-4 py-4 rounded-xl bg-black/75 backdrop-blur-2xl border border-emerald-500/20">
+          <p className="text-[9px] font-black uppercase tracking-widest text-slate-500 mb-3 text-center">Spectral Scale</p>
+          <div className="flex items-center gap-3">
+            <div className="h-32 w-1.5 rounded-full overflow-hidden" style={{ background: "linear-gradient(to bottom, rgb(225,29,72), rgb(245,158,11), rgb(110,231,183), rgb(16,185,129), rgb(10,40,100))" }} />
             <div className="flex flex-col justify-between h-32">
-              <span className="text-[9px] font-bold text-red-400">{dataStats.max.toFixed(1)}{unit}</span>
-              <span className="text-[9px] text-amber-400">WARM</span>
-              <span className="text-[9px] text-green-400">COOL</span>
-              <span className="text-[9px] font-bold text-cyan-400">{dataStats.min.toFixed(1)}{unit}</span>
+              <span className="text-[10px] font-black text-rose-500 leading-none">{dataStats.max.toFixed(0)}{unit}</span>
+              <span className="text-[8px] text-slate-600 font-black uppercase tracking-tighter">Hyper</span>
+              <span className="text-[8px] text-emerald-600 font-black uppercase tracking-tighter">Neutral</span>
+              <span className="text-[10px] font-black text-emerald-400 leading-none">{dataStats.min.toFixed(0)}{unit}</span>
             </div>
           </div>
         </div>
