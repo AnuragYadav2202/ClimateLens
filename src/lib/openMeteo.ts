@@ -94,11 +94,26 @@ function buildBatches(batchSize = 50): Array<{ lats: string; lons: string }> {
   return batches;
 }
 
-/** Fetch climate data for a global grid for one year — batched & cached */
+/** Fetch climate data for a global grid for one year — parallelized & persistently cached */
 export async function fetchClimateGrid(
   year: number
 ): Promise<OpenMeteoLocationResponse[]> {
-  const cacheKey = `grid-${year}`;
+  const cacheKey = `climatelens-grid-${year}`;
+  
+  // 1. Check persistent cache (localStorage)
+  if (typeof window !== "undefined") {
+    try {
+      const persisted = localStorage.getItem(cacheKey);
+      if (persisted) {
+        const { data: cachedData, ts } = JSON.parse(persisted);
+        if (Date.now() - ts < CACHE_TTL * 6) { // 30 min persistent TTL
+          return cachedData as OpenMeteoLocationResponse[];
+        }
+      }
+    } catch (e) { console.warn("Cache read failed", e); }
+  }
+
+  // 2. Check in-memory cache
   const hit = cache.get(cacheKey);
   if (hit && Date.now() - hit.ts < CACHE_TTL) {
     return hit.data as OpenMeteoLocationResponse[];
@@ -107,32 +122,46 @@ export async function fetchClimateGrid(
   const batches = buildBatches(50);
   const start = `${year}-01-01`;
   const end = `${year}-12-31`;
+  
+  // 3. Parallel fetching with limited concurrency (3 at a time)
   const allData: OpenMeteoLocationResponse[] = [];
+  const CONCURRENCY = 3;
+  
+  for (let i = 0; i < batches.length; i += CONCURRENCY) {
+    const chunk = batches.slice(i, i + CONCURRENCY);
+    const results = await Promise.all(chunk.map(async (batch) => {
+      try {
+        const url = new URL(CLIMATE_API);
+        url.searchParams.set("latitude", batch.lats);
+        url.searchParams.set("longitude", batch.lons);
+        url.searchParams.set("start_date", start);
+        url.searchParams.set("end_date", end);
+        url.searchParams.set("daily", "temperature_2m_mean,precipitation_sum,wind_speed_10m_mean");
+        url.searchParams.set("models", MODEL);
 
-  // Sequential batches to be polite to the API
-  for (const batch of batches) {
-    try {
-      const url = new URL(CLIMATE_API);
-      url.searchParams.set("latitude", batch.lats);
-      url.searchParams.set("longitude", batch.lons);
-      url.searchParams.set("start_date", start);
-      url.searchParams.set("end_date", end);
-      url.searchParams.set("daily", "temperature_2m_mean,precipitation_sum,wind_speed_10m_mean");
-      url.searchParams.set("models", MODEL);
-
-      const res = await fetchWithRetry(url.toString());
-      const data = await res.json();
-      const items: OpenMeteoLocationResponse[] = Array.isArray(data) ? data : [data];
-      allData.push(...items);
-
-      // Small pause between batches to avoid 429
-      await new Promise((r) => setTimeout(r, 150));
-    } catch (e) {
-      console.warn("Batch failed, skipping:", e);
+        const res = await fetchWithRetry(url.toString(), 2);
+        const data = await res.json();
+        return Array.isArray(data) ? data : [data];
+      } catch (e) {
+        console.warn("Batch failed:", e);
+        return [];
+      }
+    }));
+    
+    results.forEach(r => allData.push(...r));
+    if (i + CONCURRENCY < batches.length) {
+      await new Promise((r) => setTimeout(r, 200)); // Rate limiting gap
     }
   }
 
+  // 4. Update both caches
   cache.set(cacheKey, { data: allData, ts: Date.now() });
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.setItem(cacheKey, JSON.stringify({ data: allData, ts: Date.now() }));
+    } catch (e) { console.warn("Cache write failed", e); }
+  }
+
   return allData;
 }
 

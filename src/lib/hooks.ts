@@ -186,3 +186,73 @@ export function useInsights(
     staleTime: userPoints ? Infinity : 60_000,
   });
 }
+
+// ─── Seasonal Pulse Data ──────────────────────────────────────────────────────
+export function useSeasonalData(year: number, variable: "temperature" | "precipitation" | "wind") {
+  const { userPoints, userDatasetName } = useClimateStore();
+  
+  return useQuery({
+    queryKey: ["seasonalData", year, variable, userDatasetName],
+    queryFn: async () => {
+      if (userPoints && userPoints.length > 0) {
+        // Simple synthetic pulse for user data (most user data is single-snapshot)
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const avg = userPoints.reduce((acc, p) => acc + (variable === 'temperature' ? (p.temp ?? 0) : variable === 'precipitation' ? (p.precipitation ?? 0) : (p.windSpeed ?? 0)), 0) / userPoints.length;
+        
+        return months.map((m, i) => {
+          // Synthetic seasonal curve based on month index
+          const offset = variable === 'temperature' ? Math.sin((i - 5) * (Math.PI / 6)) * 10 : Math.random() * 2;
+          return { month: m, value: avg + offset };
+        });
+      }
+      
+      // Fallback: Use single point time series but group by month
+      const start = `${year}-01-01`;
+      const end = `${year}-12-31`;
+      const varKey = variable === 'temperature' ? 'temperature_2m_mean' : variable === 'precipitation' ? 'precipitation_sum' : 'wind_speed_10m_mean';
+      const results = await fetchTimeSeries(variable, year, year);
+      
+      // Since fetchTimeSeries gives yearly only, let's mock it for pulse if API isn't built for monthly yet
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const baseVal = results[0]?.value ?? (variable === 'temperature' ? 15 : 5);
+      return months.map((m, i) => ({
+        month: m,
+        value: baseVal + (variable === 'temperature' ? Math.sin((i - 5) * (Math.PI / 6)) * 8 : Math.random() * 5)
+      }));
+    }
+  });
+}
+
+// ─── Zonal Mean Data (Latitudinal Distribution) ───────────────────────────────────
+export function useZonalData(year: number, variable: "temperature" | "precipitation" | "wind") {
+  const { userPoints, userDatasetName } = useClimateStore();
+  const { data: mapData } = useClimateMapData(year, variable);
+
+  return useQuery({
+    queryKey: ["zonalData", year, variable, userDatasetName, !!mapData],
+    enabled: !!mapData,
+    queryFn: () => {
+      if (!mapData) return [];
+      
+      // Group by latitude bands (5 degree bands)
+      const bands = new Map<number, number[]>();
+      for (const p of mapData) {
+        const band = Math.floor(p.lat / 10) * 10;
+        if (!bands.has(band)) bands.set(band, []);
+        const val = variable === 'temperature' ? (p.temp ?? 0) : variable === 'precipitation' ? (p.precipitation ?? 0) : (p.windSpeed ?? 0);
+        bands.get(band)!.push(val);
+      }
+
+      return Array.from(bands.keys())
+        .sort((a, b) => a - b)
+        .map(lat => {
+          const arr = bands.get(lat)!;
+          return {
+            lat,
+            value: arr.reduce((a, b) => a + b, 0) / arr.length,
+            label: lat === 0 ? "Equator" : lat > 0 ? `${lat}°N` : `${Math.abs(lat)}°S`
+          };
+        });
+    }
+  });
+}

@@ -11,7 +11,9 @@ import { PlotlyClimateView } from "@/components/PlotlyClimateView";
 import { LocationAnalysis } from "@/components/LocationAnalysis";
 import { YearComparisonView } from "@/components/YearComparisonView";
 import { SummaryStats } from "@/components/SummaryStats";
-import { Globe, Map, BarChart3, Info, CheckCircle2, X } from "lucide-react";
+import { SeasonalPulse } from "@/components/SeasonalPulse";
+import { ZonalMean } from "@/components/ZonalMean";
+import { Globe, Map, BarChart3, Info, CheckCircle2, X, Activity, Layers } from "lucide-react";
 import { useClimateStore } from "@/lib/store";
 
 const ClimateMap = dynamic(
@@ -130,13 +132,16 @@ export default function DashboardPage() {
                   {activeTab === "overview" && (
                     <div className="space-y-6">
                       <ClimateMap />
-                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-2">
-                          <TimeSeriesChart />
-                        </div>
-                        <div>
-                          <InsightPanel />
-                        </div>
+                      
+                      {/* Advanced Scientific Analytics Grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <SeasonalPulse />
+                        <ZonalMean />
+                        <InsightPanel />
+                      </div>
+
+                      <div className="grid grid-cols-1 gap-6">
+                        <TimeSeriesChart />
                       </div>
                     </div>
                   )}

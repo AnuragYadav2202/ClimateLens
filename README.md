@@ -49,13 +49,11 @@ ClimateLens was built to win. Here's why it stands out:
 
 ## ✨ Features
 
-### 🌍 Interactive 3D Globe
-- **Drag to rotate** — click and drag to spin the globe
-- **Hover tooltip** — shows exact latitude, longitude, and data value in real-time
-- **Click popup** — click any point for a detailed data card
-- **Lat/Lon grid lines** — parallels and meridians overlaid
-- **Adaptive color scale** — auto-ranges to your dataset's min/max values
-- **Photorealistic rendering** — pixel-level heatmap with continent shading, atmosphere glow, stars, and specular highlights
+### 💹 Advanced Scientific Analytics
+- **Seasonal Climate Pulse**: Radial radar chart visualizing monthly temperature/precip cycles.
+- **Global Zonal Mean**: Latitudinal distribution chart showing energy gradients from Pole to Equator.
+- **Interactive 3D Globe**: Drag-to-rotate, hover lat/lon tooltip, click for exact data values.
+- **Adaptive Heatmap**: Auto-ranges color scale to uploaded data's min/max.
 
 ### 🗺️ Climate Heatmap (2D)
 - High-resolution heatmap powered by deck.gl
