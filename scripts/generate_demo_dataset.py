@@ -11,8 +11,8 @@ def generate_perfect_dataset(output_path):
     num_lats = len(lats)
     num_lons = len(lons)
     
-    # Create the dataset
-    ds = nc.Dataset(output_path, "w", format="NETCDF4")
+    # Create the dataset (Use NETCDF3_CLASSIC for browser compatibility with netcdfjs)
+    ds = nc.Dataset(output_path, "w", format="NETCDF3_CLASSIC")
     
     # Global Attributes for ClimateLens detection
     ds.year = 2025
@@ -27,9 +27,9 @@ def generate_perfect_dataset(output_path):
     lat_var = ds.createVariable("lat", "f4", ("lat",))
     lon_var = ds.createVariable("lon", "f4", ("lon",))
     
-    temp_var = ds.createVariable("temp", "f4", ("lat", "lon"), zlib=True)
-    prec_var = ds.createVariable("precip", "f4", ("lat", "lon"), zlib=True)
-    wind_var = ds.createVariable("wind", "f4", ("lat", "lon"), zlib=True)
+    temp_var = ds.createVariable("temp", "f4", ("lat", "lon"))
+    prec_var = ds.createVariable("precip", "f4", ("lat", "lon"))
+    wind_var = ds.createVariable("wind", "f4", ("lat", "lon"))
     
     # Units and Metadata for scientific look
     lat_var.units = "degrees_north"
