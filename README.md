@@ -38,6 +38,8 @@ ClimateLens was built to win. Here's why it stands out:
 
 ### Upload → Visualize in Seconds
 
+### [📺 Watch the Demo Video](public/assets/demo_video.mp4)
+
 1. Go to the **Dashboard**
 2. Drag and drop any `.nc` climate file onto the sidebar
 3. Watch the **3D Globe**, **Heatmap**, **Time Series**, **AI Insights**, **Story Page**, and **Summary Stats** all update live from your data
